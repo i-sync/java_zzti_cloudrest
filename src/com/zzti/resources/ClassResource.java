@@ -1,6 +1,7 @@
 package com.zzti.resources;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,9 +9,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.zzti.bean.Class;
 import com.zzti.bean.ListResult;
 import com.zzti.bean.Result;
-import com.zzti.bean.Class;
 import com.zzti.bean.TResult;
 
 @Path("/class")
@@ -29,7 +30,7 @@ public class ClassResource {
 	@Path("/add")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classAdd(Class data) 
+	public Result classAdd(@FormParam("data") Class data) 
 	{
 		return new com.zzti.dao.Class().add(data);
 	}
@@ -41,7 +42,7 @@ public class ClassResource {
 	@Path("/update")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classUpdate(Class data)
+	public Result classUpdate(@FormParam("data") Class data)
 	{
 		return new com.zzti.dao.Class().update(data);
 	}
@@ -64,7 +65,7 @@ public class ClassResource {
 	@Path("/delete")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classDelete(Class data)
+	public Result classDelete(@FormParam("data") Class data)
 	{
 		return new com.zzti.dao.Class().delete(data);
 	}
@@ -73,7 +74,7 @@ public class ClassResource {
 	 * get single model by id
 	 */
 	@GET
-	@Path("/getmodel/{id}")
+	@Path("/model/{id}")
 	@Produces("application/json;charset=utf-8") 
 	public TResult<Class> classGetSingle(@PathParam("id") int id)
 	{
@@ -86,10 +87,10 @@ public class ClassResource {
 	 * get single model
 	 */
 	@POST
-	@Path("/getmodel")
+	@Path("/model")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public TResult<Class> classGetModel(Class data)
+	public TResult<Class> classGetModel(@FormParam("data") Class data)
 	{
 		return new com.zzti.dao.Class().getModel(data);
 	}

@@ -13,6 +13,7 @@ import com.zzti.bean.Class;
 import com.zzti.bean.ListResult;
 import com.zzti.bean.Result;
 import com.zzti.bean.TResult;
+import com.zzti.utils.Common;
 
 @Path("/class")
 public class ClassResource {
@@ -30,9 +31,9 @@ public class ClassResource {
 	@Path("/add")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classAdd(@FormParam("data") Class data) 
+	public Result classAdd(@FormParam("data") String data) 
 	{
-		return new com.zzti.dao.Class().add(data);
+		return new com.zzti.dao.Class().add(Common.getT(data, Class.class));
 	}
 	
 	/*
@@ -42,9 +43,9 @@ public class ClassResource {
 	@Path("/update")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classUpdate(@FormParam("data") Class data)
+	public Result classUpdate(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Class().update(data);
+		return new com.zzti.dao.Class().update(Common.getT(data, Class.class));
 	}
 	
 	/*
@@ -65,9 +66,9 @@ public class ClassResource {
 	@Path("/delete")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public Result classDelete(@FormParam("data") Class data)
+	public Result classDelete(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Class().delete(data);
+		return new com.zzti.dao.Class().delete(Common.getT(data, Class.class));
 	}
 	
 	/*
@@ -90,9 +91,9 @@ public class ClassResource {
 	@Path("/model")
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	@Produces("application/json;charset=utf-8")
-	public TResult<Class> classGetModel(@FormParam("data") Class data)
+	public TResult<Class> classGetModel(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Class().getModel(data);
+		return new com.zzti.dao.Class().getModel(Common.getT(data, Class.class));
 	}
 	
 	

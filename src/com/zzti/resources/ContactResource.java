@@ -9,24 +9,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.zzti.bean.Contact;
 import com.zzti.bean.ListResult;
 import com.zzti.bean.Result;
 import com.zzti.bean.TResult;
+import com.zzti.utils.Common;
 
 @Path("/contact")
 public class ContactResource {
-	@GET
-	public boolean contactExists(com.zzti.bean.Contact data)
+	@POST
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+	public boolean contactExists(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().exists(data);
+		return new com.zzti.dao.Contact().exists(Common.getT(data, Contact.class));
 	}
 	
 	@GET
 	@Path("/{name}")
-	public boolean contactExists(@PathParam("name") String name)
+	public boolean contactExistsByName(@PathParam("name") String name)
 	{
 		System.out.println(name);
-		com.zzti.bean.Contact data = new com.zzti.bean.Contact();
+		Contact data = new Contact();
 		data.setName(name);
 		return new com.zzti.dao.Contact().exists(data);
 	}
@@ -35,27 +38,27 @@ public class ContactResource {
 	@Path("/add")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	public Result contactAdd(@FormParam("data") com.zzti.bean.Contact data)
+	public Result contactAdd(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().add(data);
+		return new com.zzti.dao.Contact().add(Common.getT(data, Contact.class));
 	}
 	
 	@POST
 	@Path("/update")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	public Result contactUpdate(@FormParam("data") com.zzti.bean.Contact data)
+	public Result contactUpdate(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().update(data);
+		return new com.zzti.dao.Contact().update(Common.getT(data, Contact.class));
 	}
 	
 	@POST
 	@Path("/delete")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	public Result contactDelete(@FormParam("data") com.zzti.bean.Contact data)
+	public Result contactDelete(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().delete(data);
+		return new com.zzti.dao.Contact().delete(Common.getT(data, Contact.class));
 	}
 	
 	@GET
@@ -63,7 +66,7 @@ public class ContactResource {
 	@Produces({"application/json;charset=utf-8"})
 	public Result contactDelete(@PathParam("id") int id)
 	{
-		com.zzti.bean.Contact data = new com.zzti.bean.Contact();
+		Contact data = new Contact();
 		data.setId(id);
 		return new com.zzti.dao.Contact().delete(data);
 	}
@@ -72,17 +75,17 @@ public class ContactResource {
 	@Path("/model")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	public TResult<com.zzti.bean.Contact> contactGetModel(@FormParam("data") com.zzti.bean.Contact data)
+	public TResult<Contact> contactGetModel(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().getModel(data);
+		return new com.zzti.dao.Contact().getModel(Common.getT(data, Contact.class));
 	}
 	
 	@GET
 	@Path("/model/{id}")
 	@Produces({"application/json;charset=utf-8"})
-	public TResult<com.zzti.bean.Contact> contactGetModel(@PathParam("id") int id)
+	public TResult<Contact> contactGetModel(@PathParam("id") int id)
 	{
-		com.zzti.bean.Contact data = new com.zzti.bean.Contact();
+		Contact data = new Contact();
 		data.setId(id);
 		return new com.zzti.dao.Contact().getModel(data);
 	}
@@ -91,8 +94,8 @@ public class ContactResource {
 	@Path("/list")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
-	public ListResult<com.zzti.bean.Contact> contact_getList(@FormParam("data") com.zzti.bean.Contact data)
+	public ListResult<Contact> contact_getList(@FormParam("data") String data)
 	{
-		return new com.zzti.dao.Contact().getList(data);
+		return new com.zzti.dao.Contact().getList(Common.getT(data, Contact.class));
 	}
 }

@@ -47,13 +47,13 @@ public class Contact {
 				}
 				else
 				{
-					result.setResult(0);
+					result.setResult(-2);
 					result.setMessage("输入的密码错误!");
 				}
 			}
 			else
 			{
-				result.setResult(0);
+				result.setResult(-1);
 				result.setMessage("输入的手机号不存在!");
 			}
 		}catch (SQLException e) {

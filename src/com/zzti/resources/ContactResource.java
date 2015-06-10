@@ -17,6 +17,16 @@ import com.zzti.utils.Common;
 
 @Path("/contact")
 public class ContactResource {
+	
+	@POST
+	@Path("/login")
+	@Produces({"application/json;charset=utf-8"})
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+	public TResult<Contact> contactLogin(@FormParam("data") String data)
+	{
+		return new com.zzti.dao.Contact().login(Common.getT(data, Contact.class));
+	}
+	
 	@POST
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
 	public boolean contactExists(@FormParam("data") String data)
@@ -50,6 +60,15 @@ public class ContactResource {
 	public Result contactUpdate(@FormParam("data") String data)
 	{
 		return new com.zzti.dao.Contact().update(Common.getT(data, Contact.class));
+	}
+	
+	@POST
+	@Path("/updatepwd")
+	@Produces({"application/json;charset=utf-8"})
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+	public Result contactUpdatePwd(@FormParam("data") String data)
+	{
+		return new com.zzti.dao.Contact().updatePwd(Common.getT(data,Contact.class));
 	}
 	
 	@POST

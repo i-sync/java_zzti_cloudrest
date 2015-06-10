@@ -31,4 +31,6 @@ alter table Contact
     add column UpdateDate datetime,
     add column IP varchar(32);
 
+alter table Contact
+	add column Password varchar(128);
 select * from Contact;

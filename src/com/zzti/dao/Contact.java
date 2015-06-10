@@ -12,9 +12,66 @@ import java.util.List;
 import com.zzti.bean.ListResult;
 import com.zzti.bean.Result;
 import com.zzti.bean.TResult;
+import com.zzti.utils.Common;
 
 public class Contact {
 
+	/*
+	 * login
+	 */
+	public TResult<com.zzti.bean.Contact> login(com.zzti.bean.Contact data)
+	{
+		TResult<com.zzti.bean.Contact> result = new TResult<com.zzti.bean.Contact>();
+		
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try{
+			String sql ="select * from Contact where `Phone`=?";
+			Object[] obj = new Object[]{data.getPhone()};
+			
+			conn = new ConnectionManager().getConnection();
+			pstmt = conn.prepareStatement(sql);
+			for (int i = 0; i < obj.length; i++) {
+				pstmt.setObject(i + 1, obj[i]);
+			}
+			rs = pstmt.executeQuery();
+			// 判断是否有数据
+			if (rs.next()) {
+				data.setId(rs.getInt("ID"));
+				String pwd = rs.getString("Password");
+				if(pwd.equals(data.getPassword()))
+				{
+					result = getModel(data);
+				}
+				else
+				{
+					result.setResult(0);
+					result.setMessage("输入的密码错误!");
+				}
+			}
+			else
+			{
+				result.setResult(0);
+				result.setMessage("输入的手机号不存在!");
+			}
+		}catch (SQLException e) {
+			e.printStackTrace();
+			result.setResult(0);
+			result.setMessage(e.getMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setResult(0);
+			result.setMessage(e.getMessage());
+		} finally {
+			ConnectionManager.free(rs, pstmt, conn);
+		}
+
+		return result;
+	}
+	
+	
 	/**
 	 * 判断联系人名称是否存在
 	 * 
@@ -49,11 +106,11 @@ public class Contact {
 			return result;
 		}
 		try {
-			String sql = "insert into Contact(`Name`,`CID`,`Phone`,`Email`,`Living`,`Company`,`Remark`,`AddDate`,`UpdateDate`,`IP`) values(?,?,?,?,?,?,?,?,?,?);";
+			String sql = "insert into Contact(`Name`,`CID`,`Phone`,`Email`,`Living`,`Company`,`Remark`,`AddDate`,`UpdateDate`,`IP`,`Password`) values(?,?,?,?,?,?,?,?,?,?,?);";
 			Object[] obj = new Object[] { data.getName(), data.getCid(),
 					data.getPhone(), data.getEmail(), data.getLiving(),
 					data.getCompany(), data.getRemark(), new Date(),
-					new Date(), data.getIp() };
+					new Date(), data.getIp(),Common.getMD5("111111") };
 			int res = DBHelper.executeNonQuery(sql, obj);
 			result.setResult(res);
 		} catch (Exception e) {
@@ -85,6 +142,25 @@ public class Contact {
 					data.getPhone(), data.getEmail(), data.getLiving(),
 					data.getCompany(), data.getRemark(), new Date(),
 					data.getIp(), data.getId() };
+			int res = DBHelper.executeNonQuery(sql, obj);
+			result.setResult(res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setResult(0);
+			result.setMessage(e.getMessage());
+		}
+		return result;
+	}
+	
+	/*
+	 * update user password
+	 */
+	public Result updatePwd(com.zzti.bean.Contact data)
+	{
+		Result result = new Result();
+		try {
+			String sql = "update Contact set `Password`=? where `ID`=?;";
+			Object[] obj = new Object[] {data.getPassword(), data.getId() };
 			int res = DBHelper.executeNonQuery(sql, obj);
 			result.setResult(res);
 		} catch (Exception e) {
@@ -152,6 +228,7 @@ public class Contact {
 				data.setAddDate(rs.getDate("AddDate"));
 				data.setUpdateDate(rs.getDate("UpdateDate"));
 				data.setIp(rs.getString("IP"));
+				data.setPassword(rs.getString("Password"));
 				result.setT(data);
 				result.setResult(1);
 			} else {

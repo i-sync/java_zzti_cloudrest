@@ -82,6 +82,15 @@ public class ContactResource {
 	}
 	
 	@POST
+	@Path("/resetpwd")
+	@Produces({"application/json;charset=utf-8"})
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})
+	public Result contactResetPwd(@FormParam("data") String data)
+	{
+		return new com.zzti.dao.Contact().resetPwd(Common.getT(data, Contact.class));
+	}
+	
+	@POST
 	@Path("/delete")
 	@Produces({"application/json;charset=utf-8"})
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED})

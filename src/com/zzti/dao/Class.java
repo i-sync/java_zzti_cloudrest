@@ -95,7 +95,7 @@ public class Class {
 			String sql = "select * from Class where ID=?";
 			Object[] objs = new Object[] { data.getId() };
 
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			for (int i = 0; i < objs.length; i++) {
 				pstmt.setObject(i + 1, objs[i]);
@@ -121,8 +121,7 @@ public class Class {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			// PoolManager.free(rs, pstmt, conn);
-			ConnectionManager.free(rs, pstmt, conn);
+			PoolManager.free(rs, pstmt, conn);
 		}
 
 		return result;
@@ -140,7 +139,7 @@ public class Class {
 		ResultSet rs = null;
 		try {
 			String sql = "select * from Class";
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			List<com.zzti.bean.Class> list = new ArrayList<com.zzti.bean.Class>();
@@ -164,8 +163,7 @@ public class Class {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			// PoolManager.free(rs, stmt, conn);
-			ConnectionManager.free(rs, stmt, conn);
+			PoolManager.free(rs, stmt, conn);
 		}
 		return result;
 	}

@@ -70,7 +70,7 @@ public class PasswordChangeRequest {
 			String sql = "select * from PasswordChangeRequest where ID=? and `Status`=?;"; 
 			Object[] obj = new Object[] { data.getId(),1 };
 
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			for (int i = 0; i < obj.length; i++) {
 				pstmt.setObject(i + 1, obj[i]);
@@ -97,7 +97,7 @@ public class PasswordChangeRequest {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			ConnectionManager.free(rs, pstmt, conn);
+			PoolManager.free(rs, pstmt, conn);
 		}
 
 		return result;

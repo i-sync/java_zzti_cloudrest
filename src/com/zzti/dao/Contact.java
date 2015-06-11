@@ -31,7 +31,7 @@ public class Contact {
 			String sql ="select * from Contact where `Phone`=?";
 			Object[] obj = new Object[]{data.getPhone()};
 			
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			for (int i = 0; i < obj.length; i++) {
 				pstmt.setObject(i + 1, obj[i]);
@@ -65,7 +65,7 @@ public class Contact {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			ConnectionManager.free(rs, pstmt, conn);
+			PoolManager.free(rs, pstmt, conn);
 		}
 
 		return result;
@@ -205,6 +205,26 @@ public class Contact {
 	}
 
 	/**
+	 * reset password
+	 * @return
+	 */
+	public Result resetPwd(com.zzti.bean.Contact data)
+	{
+		Result result = new Result();
+		try {
+			String sql = "update Contact set `Password`=? where `Email`=?;";
+			Object[] obj = new Object[] {data.getPassword(), data.getEmail() };
+			int res = DBHelper.executeNonQuery(sql, obj);
+			result.setResult(res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.setResult(0);
+			result.setMessage(e.getMessage());
+		}
+		return result;		
+	}
+	
+	/**
 	 * 删除联系人信息
 	 * 
 	 * @param data
@@ -242,7 +262,7 @@ public class Contact {
 			String sql = "select a.*,b.Name as cName from Contact a inner join Class b on a.CID= b.ID where a.ID=?"; // "select * from Contact where ID=?";
 			Object[] obj = new Object[] { data.getId() };
 
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			pstmt = conn.prepareStatement(sql);
 			for (int i = 0; i < obj.length; i++) {
 				pstmt.setObject(i + 1, obj[i]);
@@ -277,8 +297,7 @@ public class Contact {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			// PoolManager.free(rs, pstmt, conn);
-			ConnectionManager.free(rs, pstmt, conn);
+			PoolManager.free(rs, pstmt, conn);
 		}
 
 		return result;
@@ -319,7 +338,7 @@ public class Contact {
 					+ ") a inner join(select * from Class) b  on a.CID = b.ID order by a.ID  "
 					+ limit;
 			System.out.printf(sql);
-			conn = new ConnectionManager().getConnection();
+			conn = PoolManager.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
 			List<com.zzti.bean.Contact> list = new ArrayList<com.zzti.bean.Contact>();
@@ -366,8 +385,7 @@ public class Contact {
 			result.setResult(0);
 			result.setMessage(e.getMessage());
 		} finally {
-			// PoolManager.free(rs, stmt, conn);
-			ConnectionManager.free(rs, stmt, conn);
+			PoolManager.free(rs, stmt, conn);
 		}
 		return result;
 	}

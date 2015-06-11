@@ -42,7 +42,7 @@ public class PasswordChangeRequest {
 	{
 		Result result = new Result();
 		try {
-			String sql = "update PasswordChangeRequest set `Status`=1 where `ID`=?;";
+			String sql = "update PasswordChangeRequest set `Status`=0 where `ID`=?;";
 			Object[] obj = new Object[] {data.getId() };
 			int res = DBHelper.executeNonQuery(sql, obj);
 			result.setResult(res);

@@ -41,5 +41,5 @@ create table PasswordChangeRequest
 	AddTime datetime,
 	Email varchar(64),
 	`Status` int
-)
-select * from Contact;
+);
+#select * from Contact;

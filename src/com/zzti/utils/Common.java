@@ -2,6 +2,8 @@ package com.zzti.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.google.gson.Gson;
 
@@ -41,4 +43,17 @@ public class Common {
         }
         return result;
     }
+	
+	/**
+	 * format sql date to string 
+	 * @param date
+	 * @return
+	 */
+	public static String dateToString(long date)
+	{
+		Date datetime = new Date();
+		datetime.setTime(date);
+		SimpleDateFormat formattime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return formattime.format(datetime);
+	}
 }

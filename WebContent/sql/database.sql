@@ -33,4 +33,13 @@ alter table Contact
 
 alter table Contact
 	add column Password varchar(128);
+	
+
+create table PasswordChangeRequest
+(
+	ID varchar(36) primary key,
+	AddTime datetime,
+	Email varchar(64),
+	`Status` int
+)
 select * from Contact;

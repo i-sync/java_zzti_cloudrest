@@ -89,6 +89,24 @@ public class Contact {
 		}
 		return flag;
 	}
+	
+	/**
+	 * check email is exist
+	 * @param data
+	 * @return
+	 */
+	public boolean emailExist(com.zzti.bean.Contact data){
+		boolean flag = false;
+		try{
+			String sql ="select 1 from Contact where `Email`=? and ID !=? ;";
+			Object [] obj = new Object []{data.getEmail(),data.getId()};
+			flag = DBHelper.isExist(sql, obj);
+		}catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		return flag;
+	}
 
 	/**
 	 * 添加联系人
@@ -105,6 +123,14 @@ public class Contact {
 			result.setMessage("用户名已存在！");
 			return result;
 		}
+		//check email if exist
+		flag = emailExist(data);
+		if(flag){
+			result.setResult(-2);// indicate email exist
+			result.setMessage("邮箱已经存在!");
+			return result;
+		}		
+		
 		try {
 			String sql = "insert into Contact(`Name`,`CID`,`Phone`,`Email`,`Living`,`Company`,`Remark`,`AddDate`,`UpdateDate`,`IP`,`Password`) values(?,?,?,?,?,?,?,?,?,?,?);";
 			Object[] obj = new Object[] { data.getName(), data.getCid(),
@@ -136,6 +162,13 @@ public class Contact {
 			result.setMessage("用户名已存在！");
 			return result;
 		}
+		//check email if exist
+		flag = emailExist(data);
+		if(flag){
+			result.setResult(-2);// indicate email exist
+			result.setMessage("邮箱已经存在!");
+			return result;
+		}	
 		try {
 			String sql = "update Contact set `Name`=?,`CID`=?,`Phone`=?,`Email`=?,`Living`=?,`Company`=?,`Remark`=?,`UpdateDate`=?,`IP`=? where `ID`=?;";
 			Object[] obj = new Object[] { data.getName(), data.getCid(),
@@ -225,8 +258,8 @@ public class Contact {
 				data.setLiving(rs.getString("Living"));
 				data.setCompany(rs.getString("Company"));
 				data.setRemark(rs.getString("Remark"));
-				data.setAddDate(rs.getDate("AddDate"));
-				data.setUpdateDate(rs.getDate("UpdateDate"));
+				data.setAddDate(new Date(rs.getTimestamp("AddDate").getTime()));
+				data.setUpdateDate(new Date(rs.getTimestamp("UpdateDate").getTime()));
 				data.setIp(rs.getString("IP"));
 				data.setPassword(rs.getString("Password"));
 				result.setT(data);

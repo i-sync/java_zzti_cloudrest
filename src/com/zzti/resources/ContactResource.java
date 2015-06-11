@@ -44,6 +44,16 @@ public class ContactResource {
 		return new com.zzti.dao.Contact().exists(data);
 	}
 	
+	
+	@GET
+	@Path("/email/{email}")
+	public boolean emailExist(@PathParam("email") String email)
+	{
+		Contact data = new Contact();
+		data.setEmail(email);
+		return new com.zzti.dao.Contact().emailExist(data);
+	}
+	
 	@POST
 	@Path("/add")
 	@Produces({"application/json;charset=utf-8"})

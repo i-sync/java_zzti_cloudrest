@@ -41,7 +41,7 @@ public class Contact {
 			if (rs.next()) {
 				data.setId(rs.getInt("ID"));
 				String pwd = rs.getString("Password");
-				if(pwd.equals(data.getPassword()))
+				if(data.getPassword().equals(pwd))
 				{
 					result = getModel(data);
 				}

@@ -113,7 +113,7 @@ public class ConnectionPool {
 			conn = freeConnections.remove();
 			// 判断：链接是否可用
 			try {
-				if (conn.isClosed()) {
+				if (conn.isClosed() || !conn.isValid(0) ) {
 					System.out.println("移除了一个不可用的链接");
 					// 获取下一个链接
 					avtive_num--;

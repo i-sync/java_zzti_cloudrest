@@ -43,3 +43,15 @@ create table PasswordChangeRequest
 	`Status` int
 );
 #select * from Contact;
+create table Gallery
+(
+	ID int auto_increment primary key,
+	CID int,
+	CName varchar(128),
+	Title varchar(128),
+	Caption varchar(256),
+	Content varchar(2048),
+	Picture varchar(128),
+	AddDate datetime,
+	UpdateDate datetime
+);

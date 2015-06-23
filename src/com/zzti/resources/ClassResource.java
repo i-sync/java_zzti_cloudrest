@@ -79,7 +79,7 @@ public class ClassResource {
 	@Produces("application/json;charset=utf-8") 
 	public TResult<Class> classGetSingle(@PathParam("id") int id)
 	{
-		System.out.println(id);
+		//System.out.println(id);
 		Class data = new Class(id);
 		return new com.zzti.dao.Class().getModel(data);		
 	}

@@ -337,7 +337,7 @@ public class Contact {
 					+ condition
 					+ ") a inner join(select * from Class) b  on a.CID = b.ID order by a.ID  "
 					+ limit;
-			System.out.printf(sql);
+			//System.out.println(sql);
 			conn = PoolManager.getConnection();
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);

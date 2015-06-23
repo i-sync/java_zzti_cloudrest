@@ -38,7 +38,7 @@ public class ContactResource {
 	@Path("/{name}")
 	public boolean contactExistsByName(@PathParam("name") String name)
 	{
-		System.out.println(name);
+		//System.out.println(name);
 		Contact data = new Contact();
 		data.setName(name);
 		return new com.zzti.dao.Contact().exists(data);

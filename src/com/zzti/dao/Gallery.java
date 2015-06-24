@@ -177,7 +177,7 @@ public class Gallery {
 			rs.close();
 
 			// select total count
-			sql = "select * from Gallery "+ condition;
+			sql = "select count(1) as count from Gallery "+ condition;
 			rs = stmt.executeQuery(sql);
 			int count = 0;
 			while (rs.next()) {

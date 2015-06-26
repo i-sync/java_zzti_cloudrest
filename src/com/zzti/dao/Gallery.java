@@ -44,8 +44,9 @@ public class Gallery {
 	{
 		Result result = new Result();
 		try {
-			String sql = "update Gallery set CID=?,CName=?,Title=?,Caption=?,Content=?,Picture=?,`UpdateDate`=? where ID=?;";
-			Object[] objs = new Object[] { data.getCid(),data.getCname(),data.getTitle(),data.getCaption(),data.getContent(),data.getPicture(),new Date(),data.getId() };
+			String sql = String.format("update Gallery set CID=?,CName=?,Title=?,Caption=?,Content=?,%s `UpdateDate`=? where ID=?;",data.getPicture()==null||data.getPicture().equals("")?"":"Picture=?,");
+			Object[] objs = data.getPicture()==null||data.getPicture().equals("")?new Object[] { data.getCid(),data.getCname(),data.getTitle(),data.getCaption(),data.getContent(),new Date(),data.getId() }:
+				new Object[] { data.getCid(),data.getCname(),data.getTitle(),data.getCaption(),data.getContent(),data.getPicture(),new Date(),data.getId() };
 			int res = DBHelper.executeNonQuery(sql, objs);
 			result.setResult(res);
 		} catch (Exception e) {
